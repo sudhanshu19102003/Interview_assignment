@@ -8,13 +8,46 @@
             document.getElementById('image-preview').style.width = '200px'; // Set width to 200px
             document.getElementById('image-preview').style.height = 'auto';
             document.getElementById('file_name').innerText = event.target.files[0].name;
+            document.getElementById('upload_instruction').style.color = 'green';
             document.getElementById('upload_instruction').innerText = "File Uploaded Successfully";
         }
+        
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upload File</title>
     <style>
+        /* Spinner styles */
+        .spinner {
+            display: none;
+            position: fixed;
+            z-index: 999;
+            top: 50%;
+            left: 50%;
+            width: 50px;
+            height: 50px;
+            border: 8px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top-color: #333;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Overlay to disable interaction during loading */
+        .overlay {
+            display: none;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: rgba(255, 255, 255, 0.8);
+            z-index: 998;
+        }
+
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -109,8 +142,8 @@
         <h1>Welcome</h1>
     </header>
     <div class="container">
-        <h2 id = "upload_instruction">choose an Excel/CSV File</h2>
-        <form method="post" enctype="multipart/form-data">
+        <h2 id="upload_instruction">Choose an Excel/CSV File</h2>
+        <form method="post" enctype="multipart/form-data" id="uploadForm">
             {% csrf_token %}
             <label for="file-upload" class="custom-file-upload">
                 <img id="image-preview" src="{% static 'upload.png' %}" alt="Choose File">
@@ -122,5 +155,25 @@
             </div>
         </form>
     </div>
+
+    <!-- Spinner and overlay -->
+    <div class="spinner"></div>
+    <div class="overlay"></div>
+
+    {% if error %}
+        <script>
+            document.getElementById('upload_instruction').innerText = "{{ error }}";
+            document.getElementById('upload_instruction').style.color = 'red';
+        </script>
+    {% endif %}
+
+    <script>
+        // Function to show spinner and overlay when form is submitted
+        document.getElementById('uploadForm').onsubmit = function() {
+            // Show spinner and overlay
+            document.querySelector('.spinner').style.display = 'block';
+            document.querySelector('.overlay').style.display = 'block';
+        };
+    </script>
 </body>
 </html>
