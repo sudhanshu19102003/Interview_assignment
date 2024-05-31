@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Summary Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header, footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #333;
+            color: #fff;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        footer {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div id="branding">
+                <h1>Summary Report</h1>
+            </div>
+        </div>
+    </header>
+    <!-- Display the pie plot -->
+    <div style="text-align: center; margin-top: 20px;">
+        <img src="data:image/svg+xml;base64,{{ plot_base64 }}" alt="Pie Plot">
+    </div>
+    <!-- Display the table -->
+    <div class="container mt-4">
+        <div>
+            <table>
+                {{ summary|safe }}
+            </table>
+        </div>
+
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>Summary Report &copy; 2024</p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <script>
+        function handleFileSelect(event) {
+            document.getElementById('image-preview').src = "{% static 'uploaded_image.png' %}";
+            document.getElementById('image-preview').style.width = '200px'; // Set width to 200px
+            document.getElementById('image-preview').style.height = 'auto';
+            document.getElementById('file_name').innerText = event.target.files[0].name;
+            document.getElementById('upload_instruction').innerText = "File Uploaded Successfully";
+        }
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload File</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        header {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000; /* Ensure header is on top of other elements */
+        }
+        
+        #branding {
+            position: absolute;
+            top: 0;
+            left: 20px;
+            text-align: left;
+        }
+        
+        .container {
+            width: 80%;
+            text-align: center;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 80px; /* Adjust margin to push content below header */
+        }
+        
+        h1 {
+            margin-top: 0;
+        }
+        
+        .custom-file-upload {
+            border: 2px solid #ccc;
+            display: inline-block;
+            padding: 6px 12px;
+            cursor: pointer;
+            background-color: #fff;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .custom-file-upload:hover {
+            border-color: #555;
+        }
+        
+        .custom-file-upload img {
+            width: 200px;
+            height: auto;
+            object-fit: contain;
+        }
+        
+        input[type="file"] {
+            display: none;
+        }
+        
+        .button-container {
+            margin-top: 20px;
+        }
+        
+        button {
+            padding: 10px 20px;
+            font-size: 22px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        button:hover {
+            font-weight: bold;
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome</h1>
+    </header>
+    <div class="container">
+        <h2 id = "upload_instruction">choose an Excel/CSV File</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label for="file-upload" class="custom-file-upload">
+                <img id="image-preview" src="{% static 'upload.png' %}" alt="Choose File">
+            </label>
+            <input id="file-upload" type="file" name="file" onchange="handleFileSelect(event)">
+            <h4 id="file_name"></h4>
+            <div class="button-container">
+                <button type="submit">Prepare Summary Report</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
